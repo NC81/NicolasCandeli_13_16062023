@@ -9,6 +9,6 @@ assignees: ''
 A user should be able to:
 
 - [x] Navigate to the home page (`/`)
-- [ ] See all placeholder data from mockup
+- [x] See all placeholder data from mockup
 
 For more information on accessing the design assets, see the [Design Assets section in the README](https://github.com/OpenClassrooms-Student-Center/Project-10-Bank-API#design-assets).
