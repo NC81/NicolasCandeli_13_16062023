@@ -1,11 +1,13 @@
-// import { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import handleLogin from '../services/handle-login'
+import { useStore } from 'react-redux'
 
 export default function Login() {
-  // const [emailValue, setEmailValue] = useState('Email')
-  // const [passwordValue, setPasswordValue] = useState('Password')
   const navigate = useNavigate()
+  const store = useStore()
+  const [email, setEmailValue] = useState('')
+  const [password, setPasswordValue] = useState('')
 
   return (
     <main className="main bg-dark">
@@ -14,32 +16,35 @@ export default function Login() {
         <h1>Sign In</h1>
         <form
           onSubmit={async (e) =>
-            (await handleLogin(e)) && navigate('../profile')
+            (await handleLogin(e, email, password, store)) &&
+            navigate('../profile')
           }
           id="login-form"
         >
           <div className="input-wrapper">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="email">Username</label>
             <input
-              // value={emailValue}
-              // onChange={(e) => setEmailValue(e.target.value)}
+              value={email}
+              onChange={(e) => setEmailValue(e.target.value)}
               type="email"
               name="email"
-              id="username"
-              minLength={3}
-              required
+              id="email"
+              placeholder="Enter email"
+              // minLength={3}
+              // required
             />
           </div>
           <div className="input-wrapper">
             <label htmlFor="password">Password</label>
             <input
-              // value={passwordValue}
-              // onChange={(e) => setPasswordValue(e.target.value)}
+              value={password}
+              onChange={(e) => setPasswordValue(e.target.value)}
               type="password"
               name="password"
               id="password"
-              minLength={3}
-              required
+              placeholder="Enter password"
+              // minLength={3}
+              // required
             />
           </div>
           <div className="input-remember">

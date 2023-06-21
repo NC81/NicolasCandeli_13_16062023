@@ -1,15 +1,13 @@
 import fetchAPI from '../utils/fetch'
+import { login } from '../features/login'
 
-export default async function handleLogin(e) {
+export default async function handleLogin(e, email, password, store) {
   e.preventDefault()
 
-  // const testCredentials = {
-  //   email: 'tony@stark.com',
-  //   password: 'password123',
-  // }
-  const form = document.querySelector('#login-form')
-  const formData = new FormData(form)
-  const formDataObject = Object.fromEntries(formData.entries())
+  const testCredentials = {
+    email: 'tony@stark.com',
+    password: 'password123',
+  }
 
   const loginRequest = new Request('http://localhost:3001/api/v1/user/login', {
     method: 'POST',
@@ -18,7 +16,8 @@ export default async function handleLogin(e) {
       'Accept': 'application/json',
       'Content-type': 'application/json',
     },
-    body: JSON.stringify(formDataObject),
+    // body: JSON.stringify({ email: email, password: password }),
+    body: JSON.stringify(testCredentials),
   })
   const loginData = await fetchAPI(loginRequest)
   const token = loginData.body.token
@@ -34,6 +33,8 @@ export default async function handleLogin(e) {
     }
   )
   const profileData = await fetchAPI(profileRequest)
+  store.dispatch(login(profileData.body.firstName))
+  console.log('profileData', profileData)
 
   return profileData
 }
