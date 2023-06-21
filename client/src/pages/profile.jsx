@@ -1,11 +1,16 @@
+import { useSelector } from 'react-redux'
+import { fullNameSelector } from '../utils/selector'
+
 export default function Profile() {
+  const fullName = useSelector(fullNameSelector)
+
   return (
     <main className="main bg-dark">
       <div className="header">
         <h1>
           Welcome back
           <br />
-          Tony Jarvis!
+          {fullName}!
         </h1>
         <button className="edit-button">Edit Name</button>
       </div>

@@ -33,7 +33,9 @@ export default async function handleLogin(e, email, password, store) {
     }
   )
   const profileData = await fetchAPI(profileRequest)
-  store.dispatch(login(profileData.body.firstName))
+  const firstName = profileData.body.firstName
+  const lastName = profileData.body.lastName
+  store.dispatch(login(firstName, lastName))
   console.log('profileData', profileData)
 
   return profileData
