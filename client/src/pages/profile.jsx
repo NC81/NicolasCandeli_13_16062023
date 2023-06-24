@@ -1,10 +1,20 @@
-import { useSelector } from 'react-redux'
-import { fullNameSelector } from '../utils/selector'
+import { Navigate } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  isConnectedSelector,
+  fullNameSelector,
+  updateDisplaySelector,
+} from '../utils/selector'
+import Update from '../component/update'
+import { updateDisplay } from '../features/profile'
 
 export default function Profile() {
   const fullName = useSelector(fullNameSelector)
+  const isConnected = useSelector(isConnectedSelector)
+  const isUpdateDisplayed = useSelector(updateDisplaySelector)
+  const dispatch = useDispatch()
 
-  return (
+  return isConnected ? (
     <main className="main bg-dark">
       <div className="header">
         <h1>
@@ -12,7 +22,16 @@ export default function Profile() {
           <br />
           {fullName}!
         </h1>
-        <button className="edit-button">Edit Name</button>
+        {isUpdateDisplayed ? (
+          <Update />
+        ) : (
+          <button
+            onClick={(e) => dispatch(updateDisplay(true))}
+            className="edit-button"
+          >
+            Edit Name
+          </button>
+        )}
       </div>
       <h2 className="sr-only">Accounts</h2>
       <section className="account">
@@ -46,5 +65,7 @@ export default function Profile() {
         </div>
       </section>
     </main>
+  ) : (
+    <Navigate to="/login" />
   )
 }

@@ -3,7 +3,6 @@ export default async function fetchAPI(request) {
     const response = await fetch(request)
     console.log('response', response)
     const data = await response.json()
-
     if (response.ok) {
       return data
     } else {

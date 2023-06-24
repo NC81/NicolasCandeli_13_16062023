@@ -6,8 +6,8 @@ import { useStore } from 'react-redux'
 export default function Login() {
   const navigate = useNavigate()
   const store = useStore()
-  const [email, setEmailValue] = useState('')
-  const [password, setPasswordValue] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   return (
     <main className="main bg-dark">
@@ -25,7 +25,7 @@ export default function Login() {
             <label htmlFor="email">Username</label>
             <input
               value={email}
-              onChange={(e) => setEmailValue(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               type="email"
               name="email"
               id="email"
@@ -38,7 +38,7 @@ export default function Login() {
             <label htmlFor="password">Password</label>
             <input
               value={password}
-              onChange={(e) => setPasswordValue(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               type="password"
               name="password"
               id="password"

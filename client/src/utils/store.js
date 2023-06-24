@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { loginReducer } from '../features/login'
+import { profileReducer } from '../features/profile'
 
 export const store = configureStore({
-  reducer: loginReducer,
+  reducer: profileReducer,
 })

@@ -1,5 +1,5 @@
 import fetchAPI from '../utils/fetch'
-import { login } from '../features/login'
+import { userLogin } from '../features/profile'
 
 export default async function handleLogin(e, email, password, store) {
   e.preventDefault()
@@ -11,9 +11,8 @@ export default async function handleLogin(e, email, password, store) {
 
   const loginRequest = new Request('http://localhost:3001/api/v1/user/login', {
     method: 'POST',
+    // prettier-ignore
     headers: {
-      // prettier-ignore
-      'Accept': 'application/json',
       'Content-type': 'application/json',
     },
     // body: JSON.stringify({ email: email, password: password }),
@@ -21,6 +20,7 @@ export default async function handleLogin(e, email, password, store) {
   })
   const loginData = await fetchAPI(loginRequest)
   const token = loginData.body.token
+  localStorage.setItem('token', token)
 
   const profileRequest = new Request(
     'http://localhost:3001/api/v1/user/profile',
@@ -32,11 +32,11 @@ export default async function handleLogin(e, email, password, store) {
       },
     }
   )
-  const profileData = await fetchAPI(profileRequest)
-  const firstName = profileData.body.firstName
-  const lastName = profileData.body.lastName
-  store.dispatch(login(firstName, lastName))
-  console.log('profileData', profileData)
+  const data = await fetchAPI(profileRequest)
+  const firstName = data.body.firstName
+  const lastName = data.body.lastName
+  store.dispatch(userLogin(firstName, lastName))
+  console.log('profileData', data)
 
-  return profileData
+  return data
 }

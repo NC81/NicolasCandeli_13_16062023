@@ -3,7 +3,7 @@ import logo from '../../assets/argentBankLogo.png'
 import { useSelector } from 'react-redux'
 import { isConnectedSelector, firstNameSelector } from '../../utils/selector'
 import { useDispatch } from 'react-redux'
-import { logout } from '../../features/login'
+import { userLogout } from '../../features/profile'
 
 export default function Nav() {
   const isConnected = useSelector(isConnectedSelector)
@@ -27,7 +27,7 @@ export default function Nav() {
               <i className="fa fa-user-circle"></i> {firstName}{' '}
             </Link>
             <Link
-              onClick={() => dispatch(logout())}
+              onClick={() => dispatch(userLogout())}
               to="/"
               className="main-nav-item"
             >
