@@ -1,15 +1,19 @@
 import { useState } from 'react'
-import handleUpdate from '../services/handle-update'
-import { useStore, useSelector, useDispatch } from 'react-redux'
-import { firstNameSelector, lastNameSelector } from '../utils/selector'
+import { handleUpdate } from '../services/handle-update'
+import { useSelector, useDispatch } from 'react-redux'
+import {
+  firstNameSelector,
+  lastNameSelector,
+  // isLoadingSelector,
+} from '../utils/selector'
 import { updateDisplay } from '../features/profile'
 
 export default function Update() {
   const firstName = useSelector(firstNameSelector)
   const lastName = useSelector(lastNameSelector)
+  // const isLoading = useSelector(isLoadingSelector)
   const [newFirstName, setNewFirstName] = useState(`${firstName}`)
   const [newLastName, setNewLastName] = useState(`${lastName}`)
-  const store = useStore()
   const dispatch = useDispatch()
 
   return (
@@ -44,9 +48,8 @@ export default function Update() {
       </div>
       <div className="update-group buttons-group">
         <button
-          onClick={async (e) =>
-            await handleUpdate(e, newFirstName, newLastName, store)
-          }
+          onClick={(e) => dispatch(handleUpdate(e, newFirstName, newLastName))}
+          // disabled={isLoading}
           type="submit"
           className="sign-in-button update-button"
         >

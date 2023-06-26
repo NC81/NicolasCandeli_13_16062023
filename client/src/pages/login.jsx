@@ -1,13 +1,17 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import handleLogin from '../services/handle-login'
-import { useStore } from 'react-redux'
+import { handleLogin } from '../services/handle-login'
+import { useDispatch } from 'react-redux'
+// import { isLoadingSelector } from '../utils/selector'
 
 export default function Login() {
   const navigate = useNavigate()
-  const store = useStore()
+  // const store = useStore()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  // const isLoading = useSelector(isLoadingSelector)
+
+  const dispatch = useDispatch()
 
   return (
     <main className="main bg-dark">
@@ -16,7 +20,8 @@ export default function Login() {
         <h1>Sign In</h1>
         <form
           onSubmit={async (e) =>
-            (await handleLogin(e, email, password, store)) &&
+            // (await handleLogin(e, email, password, dispatch)) &&
+            (await dispatch(handleLogin(e, email, password))) &&
             navigate('../profile')
           }
           id="login-form"
@@ -51,7 +56,11 @@ export default function Login() {
             <input type="checkbox" id="remember-me" />
             <label htmlFor="remember-me">Remember me</label>
           </div>
-          <button type="submit" className="sign-in-button">
+          <button
+            // disabled={isLoading}
+            type="submit"
+            className="sign-in-button"
+          >
             Sign In
           </button>
         </form>
