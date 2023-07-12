@@ -1,12 +1,10 @@
 import fetchAPI from '../utils/fetch'
-import { isLoading, userLoginOrUpdate } from '../features/profile'
+import { userLoginOrUpdate } from '../features/profile'
 
 export function handleLogin(e, email, password) {
+  e.preventDefault()
   return async (dispatch) => {
-    e.preventDefault()
-    // dispatch(isLoading(true))
-
-    const loginRequest = new Request(
+    const tokenRequest = new Request(
       'http://localhost:3001/api/v1/user/login',
       {
         method: 'POST',
@@ -20,11 +18,11 @@ export function handleLogin(e, email, password) {
         }),
       }
     )
-    const loginData = await fetchAPI(loginRequest)
+    const loginData = await fetchAPI(tokenRequest, dispatch)
     const token = loginData.body.token
     localStorage.setItem('token', token)
 
-    const profileRequest = new Request(
+    const dataRequest = new Request(
       'http://localhost:3001/api/v1/user/profile',
       {
         method: 'POST',
@@ -34,13 +32,10 @@ export function handleLogin(e, email, password) {
         },
       }
     )
-    const data = await fetchAPI(profileRequest)
-    const firstName = data.body.firstName
-    const lastName = data.body.lastName
+    const profileDataOrResponse = await fetchAPI(dataRequest, dispatch)
+    console.log('profileData', profileDataOrResponse)
+    const firstName = profileDataOrResponse.body.firstName
+    const lastName = profileDataOrResponse.body.lastName
     dispatch(userLoginOrUpdate(firstName, lastName))
-    // dispatch(isLoading(false))
-    console.log('profileData', data)
-
-    return data
   }
 }

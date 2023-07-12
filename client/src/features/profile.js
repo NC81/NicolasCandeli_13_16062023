@@ -3,26 +3,26 @@ import { createSlice } from '@reduxjs/toolkit'
 const { actions, reducer } = createSlice({
   name: 'profile',
   initialState: {
-    isConnected: false,
-    // isLoading: false,
+    hasInitialData: false,
+    isLoading: false,
     firstName: null,
     lastName: null,
     isUpdateDisplayed: false,
   },
   reducers: {
-    // isLoading: (draft, action) => {
-    //   draft.isLoading = action.payload
-    //   return
-    // },
+    dataIsLoading: (draft, action) => {
+      draft.isLoading = action.payload
+      return
+    },
     userLoginOrUpdate: {
       prepare: (firstName, lastName) => ({
         payload: { firstName, lastName },
       }),
       reducer: (draft, action) => {
-        if (!draft.isConnected) {
-          draft.isConnected = true
+        if (!draft.hasInitialData) {
+          draft.hasInitialData = true
         }
-        if (draft.isConnected && draft.isUpdateDisplayed) {
+        if (draft.hasInitialData && draft.isUpdateDisplayed) {
           draft.isUpdateDisplayed = false
         }
         draft.firstName = action.payload.firstName
@@ -35,11 +35,17 @@ const { actions, reducer } = createSlice({
       return
     },
     userLogout: (draft) => {
-      draft.isConnected = false
+      draft.hasInitialData = false
       return
     },
   },
 })
 
-export const { userLoginOrUpdate, updateDisplay, userLogout } = actions
+export const {
+  dataIsLoading,
+  hasToken,
+  userLoginOrUpdate,
+  updateDisplay,
+  userLogout,
+} = actions
 export default reducer

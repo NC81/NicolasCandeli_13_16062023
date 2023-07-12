@@ -1,17 +1,22 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { handleLogin } from '../services/handle-login'
-import { useDispatch } from 'react-redux'
-// import { isLoadingSelector } from '../utils/selector'
+import { useDispatch, useSelector } from 'react-redux'
+import {
+  hasInitialDataSelector,
+  isLoadingSelector,
+  loadingClassSelector,
+} from '../utils/selector'
+import LoadingSpinner from '../component/loading-spinner'
 
 export default function Login() {
   const navigate = useNavigate()
-  // const store = useStore()
+  const dispatch = useDispatch()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  // const isLoading = useSelector(isLoadingSelector)
-
-  const dispatch = useDispatch()
+  const isLoading = useSelector(isLoadingSelector)
+  const loadingClass = useSelector(loadingClassSelector)
+  const hasInitialData = useSelector(hasInitialDataSelector)
 
   return (
     <main className="main bg-dark">
@@ -19,11 +24,10 @@ export default function Login() {
         <i className="fa fa-user-circle sign-in-icon"></i>
         <h1>Sign In</h1>
         <form
-          onSubmit={async (e) =>
-            // (await handleLogin(e, email, password, dispatch)) &&
-            (await dispatch(handleLogin(e, email, password))) &&
+          onSubmit={async (e) => {
+            await dispatch(handleLogin(e, email, password))
             navigate('../profile')
-          }
+          }}
           id="login-form"
         >
           <div className="input-wrapper">
@@ -57,12 +61,13 @@ export default function Login() {
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <button
-            // disabled={isLoading}
+            disabled={isLoading}
             type="submit"
-            className="sign-in-button"
+            className={`sign-in-button ${loadingClass}`}
           >
-            Sign In
+            {isLoading ? <LoadingSpinner /> : 'Sign In'}
           </button>
+          {hasInitialData && <Link to="../profile">Back to your page</Link>}
         </form>
       </section>
     </main>

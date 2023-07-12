@@ -304,6 +304,21 @@ body {
   color: #fff;
 }
 
+.loading-spinner {
+  width: 15px;
+  height: 15px;
+  margin: auto;
+  border: 5px solid #2c3e50;
+  border-top: 5px solid #ffffff;
+  border-radius: 50%;
+  animation: spinner 1.5s linear infinite;
+}
+
+.loading-button {
+  border-color: #005834;
+  background-color: #005834;
+}
+
 @media (min-width: 720px) {
   .account {
     flex-direction: row;
@@ -315,5 +330,14 @@ body {
 
   .transaction-button {
     width: 200px;
+  }
+}
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }

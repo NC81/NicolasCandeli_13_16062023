@@ -1,7 +1,7 @@
 import { Navigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  isConnectedSelector,
+  hasInitialDataSelector,
   fullNameSelector,
   updateDisplaySelector,
 } from '../utils/selector'
@@ -10,11 +10,12 @@ import { updateDisplay } from '../features/profile'
 
 export default function Profile() {
   const fullName = useSelector(fullNameSelector)
-  const isConnected = useSelector(isConnectedSelector)
+  const hasInitialData = useSelector(hasInitialDataSelector)
   const isUpdateDisplayed = useSelector(updateDisplaySelector)
   const dispatch = useDispatch()
+  console.log('hasInitialData', hasInitialData)
 
-  return isConnected ? (
+  return hasInitialData ? (
     <main className="main bg-dark">
       <div className="header">
         <h1>

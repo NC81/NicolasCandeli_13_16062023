@@ -1,12 +1,9 @@
 import fetchAPI from '../utils/fetch'
-import { isLoading, userLoginOrUpdate } from '../features/profile'
+import { userLoginOrUpdate } from '../features/profile'
 
 export function handleUpdate(e, firstName, lastName) {
   return async (dispatch) => {
     e.preventDefault()
-    // dispatch(isLoading(true))
-
-    console.log('update', firstName, lastName)
     const token = localStorage.getItem('token')
 
     const updateRequest = new Request(
@@ -15,17 +12,16 @@ export function handleUpdate(e, firstName, lastName) {
         method: 'PUT',
         // prettier-ignore
         headers: {
-        'Content-type': 'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
+            'Content-type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
         body: JSON.stringify({ firstName: firstName, lastName: lastName }),
       }
     )
-    const data = await fetchAPI(updateRequest)
-    const newFirstName = data.body.firstName
-    const newLastName = data.body.lastName
+    const profileData = await fetchAPI(updateRequest, dispatch)
+    console.log('profileData', profileData)
+    const newFirstName = profileData.body.firstName
+    const newLastName = profileData.body.lastName
     dispatch(userLoginOrUpdate(newFirstName, newLastName))
-    // dispatch(isLoading(false))
-    console.log('updateData', data)
   }
 }

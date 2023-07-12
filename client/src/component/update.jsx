@@ -4,17 +4,20 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   firstNameSelector,
   lastNameSelector,
-  // isLoadingSelector,
+  isLoadingSelector,
+  loadingClassSelector,
 } from '../utils/selector'
 import { updateDisplay } from '../features/profile'
+import LoadingSpinner from './loading-spinner'
 
 export default function Update() {
+  const dispatch = useDispatch()
   const firstName = useSelector(firstNameSelector)
   const lastName = useSelector(lastNameSelector)
-  // const isLoading = useSelector(isLoadingSelector)
+  const isLoading = useSelector(isLoadingSelector)
+  const loadingClass = useSelector(loadingClassSelector)
   const [newFirstName, setNewFirstName] = useState(`${firstName}`)
   const [newLastName, setNewLastName] = useState(`${lastName}`)
-  const dispatch = useDispatch()
 
   return (
     <form id="update-form">
@@ -49,11 +52,11 @@ export default function Update() {
       <div className="update-group buttons-group">
         <button
           onClick={(e) => dispatch(handleUpdate(e, newFirstName, newLastName))}
-          // disabled={isLoading}
+          disabled={isLoading}
           type="submit"
-          className="sign-in-button update-button"
+          className={`sign-in-button update-button ${loadingClass}`}
         >
-          Save{' '}
+          {isLoading ? <LoadingSpinner /> : 'Save'}
         </button>
         <button
           onClick={() => dispatch(updateDisplay(false))}
