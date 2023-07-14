@@ -2,7 +2,7 @@ import fetchAPI from '../utils/fetch'
 import { userLoginOrUpdate } from '../features/profile'
 
 export function handleUpdate(e, firstName, lastName) {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     e.preventDefault()
     const token = localStorage.getItem('token')
 
@@ -19,6 +19,11 @@ export function handleUpdate(e, firstName, lastName) {
       }
     )
     const profileData = await fetchAPI(updateRequest, dispatch)
+
+    if (getState().error.hasError) {
+      return
+    }
+
     console.log('profileData', profileData)
     const newFirstName = profileData.body.firstName
     const newLastName = profileData.body.lastName

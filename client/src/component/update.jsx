@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { handleUpdate } from '../services/handle-update'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -8,9 +9,11 @@ import {
   loadingClassSelector,
 } from '../utils/selector'
 import { updateDisplay } from '../features/profile'
+import { store } from '../utils/store'
 import LoadingSpinner from './loading-spinner'
 
 export default function Update() {
+  const navigate = useNavigate()
   const dispatch = useDispatch()
   const firstName = useSelector(firstNameSelector)
   const lastName = useSelector(lastNameSelector)
@@ -51,7 +54,11 @@ export default function Update() {
       </div>
       <div className="update-group buttons-group">
         <button
-          onClick={(e) => dispatch(handleUpdate(e, newFirstName, newLastName))}
+          onClick={async (e) => {
+            await dispatch(handleUpdate(e, newFirstName, newLastName))
+            const hasError = store.getState().error.hasError
+            hasError && navigate('../login')
+          }}
           disabled={isLoading}
           type="submit"
           className={`sign-in-button update-button ${loadingClass}`}

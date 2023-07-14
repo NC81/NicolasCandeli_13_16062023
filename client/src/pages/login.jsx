@@ -6,17 +6,22 @@ import {
   hasInitialDataSelector,
   isLoadingSelector,
   loadingClassSelector,
+  errorContentSelector,
+  visibleErrorClassSelector,
 } from '../utils/selector'
+import { store } from '../utils/store'
 import LoadingSpinner from '../component/loading-spinner'
 
 export default function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const isLoading = useSelector(isLoadingSelector)
   const loadingClass = useSelector(loadingClassSelector)
   const hasInitialData = useSelector(hasInitialDataSelector)
+  const visibleErrorClass = useSelector(visibleErrorClassSelector)
+  const errorContent = useSelector(errorContentSelector)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
 
   return (
     <main className="main bg-dark">
@@ -26,7 +31,8 @@ export default function Login() {
         <form
           onSubmit={async (e) => {
             await dispatch(handleLogin(e, email, password))
-            navigate('../profile')
+            const hasError = store.getState().error.hasError
+            !hasError && navigate('../profile')
           }}
           id="login-form"
         >
@@ -67,8 +73,11 @@ export default function Login() {
           >
             {isLoading ? <LoadingSpinner /> : 'Sign In'}
           </button>
-          {hasInitialData && <Link to="../profile">Back to your page</Link>}
+          {hasInitialData && <Link to="../profile">Back to profile page</Link>}
         </form>
+      </section>
+      <section className={`error-content ${visibleErrorClass}`}>
+        {errorContent}
       </section>
     </main>
   )

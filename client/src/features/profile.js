@@ -8,6 +8,7 @@ const { actions, reducer } = createSlice({
     firstName: null,
     lastName: null,
     isUpdateDisplayed: false,
+    error: { hasError: false, name: null, message: null },
   },
   reducers: {
     dataIsLoading: (draft, action) => {
@@ -19,14 +20,25 @@ const { actions, reducer } = createSlice({
         payload: { firstName, lastName },
       }),
       reducer: (draft, action) => {
+        draft.firstName = action.payload.firstName
+        draft.lastName = action.payload.lastName
         if (!draft.hasInitialData) {
           draft.hasInitialData = true
         }
         if (draft.hasInitialData && draft.isUpdateDisplayed) {
           draft.isUpdateDisplayed = false
         }
-        draft.firstName = action.payload.firstName
-        draft.lastName = action.payload.lastName
+        return
+      },
+    },
+    errorUpdate: {
+      prepare: (hasError, name, message) => ({
+        payload: { hasError, name, message },
+      }),
+      reducer: (draft, action) => {
+        draft.error.hasError = action.payload.hasError
+        draft.error.name = action.payload.name
+        draft.error.message = action.payload.message
         return
       },
     },
@@ -43,7 +55,7 @@ const { actions, reducer } = createSlice({
 
 export const {
   dataIsLoading,
-  hasToken,
+  errorUpdate,
   userLoginOrUpdate,
   updateDisplay,
   userLogout,
