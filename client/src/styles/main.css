@@ -169,13 +169,25 @@ body {
   color: #fff;
 }
 
-.sign-in-content {
+.sign-in-button:disabled {
+  border-color: #fff;
+  background-color: #7dc7ac;
+  color: #fff;
+}
+
+.login-block-content {
+  position: relative;
   box-sizing: border-box;
   background-color: white;
   width: 300px;
   margin: 0 auto;
   margin-top: 3rem;
   padding: 2rem;
+}
+
+.error-content {
+  margin-top: 2rem;
+  padding: 1.2rem 2rem;
 }
 
 .sign-in-icon {
@@ -292,18 +304,32 @@ body {
   margin-bottom: 2rem;
 }
 
-.error-content {
-  display: none;
-  box-sizing: border-box;
+.error-button {
+  position: absolute;
   background-color: white;
-  width: 300px;
-  margin: 0 auto;
-  margin-top: 3rem;
-  padding: 2rem;
+  border: white;
+  color: #2c3e50;
+  cursor: pointer;
 }
 
-.visible {
-  display: block;
+.open-error-button {
+  bottom: 5px;
+  right: calc(50% - 15px);
+}
+
+.close-error-button {
+  top: 5px;
+  right: 5px;
+}
+
+.error-message {
+  font-size: 13px;
+  margin: 0;
+}
+
+.fa-warning,
+.fa-close {
+  font-size: 16px;
 }
 
 .transaction-button {

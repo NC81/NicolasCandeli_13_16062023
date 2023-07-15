@@ -1,5 +1,5 @@
 import fetchAPI from '../utils/fetch'
-import { userLoginOrUpdate } from '../features/profile'
+import { userLoginOrUpdate } from '../features/user'
 
 export function handleLogin(e, email, password) {
   e.preventDefault()
@@ -23,7 +23,7 @@ export function handleLogin(e, email, password) {
         }
       )
       console.log('tokenRequest')
-      const loginData = await fetchAPI(tokenRequest, dispatch)
+      const loginData = await fetchAPI(tokenRequest, dispatch, getState)
 
       if (getState().error.hasError) {
         return
@@ -43,7 +43,11 @@ export function handleLogin(e, email, password) {
         },
       }
     )
-    const profileDataOrResponse = await fetchAPI(dataRequest, dispatch)
+    const profileDataOrResponse = await fetchAPI(
+      dataRequest,
+      dispatch,
+      getState
+    )
     console.log('profileData', profileDataOrResponse)
 
     if (getState().error.hasError) {

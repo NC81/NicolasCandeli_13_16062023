@@ -6,7 +6,7 @@ import {
   updateDisplaySelector,
 } from '../utils/selector'
 import Update from '../component/update'
-import { updateDisplay } from '../features/profile'
+import { updateDisplayToggle } from '../features/user'
 
 export default function Profile() {
   const fullName = useSelector(fullNameSelector)
@@ -27,7 +27,7 @@ export default function Profile() {
           <Update />
         ) : (
           <button
-            onClick={(e) => dispatch(updateDisplay(true))}
+            onClick={(e) => dispatch(updateDisplayToggle(true))}
             className="edit-button"
           >
             Edit Name

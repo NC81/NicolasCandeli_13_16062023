@@ -3,7 +3,7 @@ import logo from '../../assets/argentBankLogo.png'
 import { useSelector } from 'react-redux'
 import { hasInitialDataSelector, firstNameSelector } from '../../utils/selector'
 import { useDispatch } from 'react-redux'
-import { userLogout } from '../../features/profile'
+import { userLogout } from '../../features/user'
 
 export default function Nav() {
   const hasInitialData = useSelector(hasInitialDataSelector)

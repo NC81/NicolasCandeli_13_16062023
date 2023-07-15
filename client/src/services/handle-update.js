@@ -1,5 +1,5 @@
 import fetchAPI from '../utils/fetch'
-import { userLoginOrUpdate } from '../features/profile'
+import { userLoginOrUpdate } from '../features/user'
 
 export function handleUpdate(e, firstName, lastName) {
   return async (dispatch, getState) => {
@@ -13,12 +13,12 @@ export function handleUpdate(e, firstName, lastName) {
         // prettier-ignore
         headers: {
             'Content-type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`
           },
         body: JSON.stringify({ firstName: firstName, lastName: lastName }),
       }
     )
-    const profileData = await fetchAPI(updateRequest, dispatch)
+    const profileData = await fetchAPI(updateRequest, dispatch, getState)
 
     if (getState().error.hasError) {
       return

@@ -8,7 +8,7 @@ import {
   isLoadingSelector,
   loadingClassSelector,
 } from '../utils/selector'
-import { updateDisplay } from '../features/profile'
+import { updateDisplayToggle } from '../features/user'
 import { store } from '../utils/store'
 import LoadingSpinner from './loading-spinner'
 
@@ -66,7 +66,7 @@ export default function Update() {
           {isLoading ? <LoadingSpinner /> : 'Save'}
         </button>
         <button
-          onClick={() => dispatch(updateDisplay(false))}
+          onClick={() => dispatch(updateDisplayToggle(false))}
           type="button"
           className="sign-in-button update-button"
         >
