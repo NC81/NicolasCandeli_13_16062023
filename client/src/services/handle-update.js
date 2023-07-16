@@ -4,7 +4,7 @@ import { userLoginOrUpdate } from '../features/user'
 export function handleUpdate(e, firstName, lastName) {
   return async (dispatch, getState) => {
     e.preventDefault()
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('ArgentBank-token')
 
     const updateRequest = new Request(
       'http://localhost:3001/api/v1/user/profile',
@@ -18,7 +18,12 @@ export function handleUpdate(e, firstName, lastName) {
         body: JSON.stringify({ firstName: firstName, lastName: lastName }),
       }
     )
-    const profileData = await fetchAPI(updateRequest, dispatch, getState)
+    const profileData = await fetchAPI(
+      updateRequest,
+      'update',
+      dispatch,
+      getState
+    )
 
     if (getState().error.hasError) {
       return

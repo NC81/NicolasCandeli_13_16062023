@@ -4,7 +4,7 @@ import errorReducer from '../features/error'
 
 const removeStorageMiddleware = (store) => (next) => (action) => {
   if (action.type === 'user/userLogout') {
-    localStorage.removeItem('token')
+    localStorage.removeItem('ArgentBank-token')
   }
   return next(action)
 }

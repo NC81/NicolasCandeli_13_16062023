@@ -56,8 +56,9 @@ export default function Update() {
         <button
           onClick={async (e) => {
             await dispatch(handleUpdate(e, newFirstName, newLastName))
-            const hasError = store.getState().error.hasError
-            hasError && navigate('../login')
+            const isAuthError = store.getState().error.name === 401
+            console.log('isAuthError', isAuthError)
+            isAuthError && navigate('../login')
           }}
           disabled={isLoading}
           type="submit"

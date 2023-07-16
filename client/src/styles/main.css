@@ -170,7 +170,7 @@ body {
 }
 
 .sign-in-button:disabled {
-  border-color: #fff;
+  border-color: #7dc7ac;
   background-color: #7dc7ac;
   color: #fff;
 }
@@ -187,6 +187,7 @@ body {
 
 .error-content {
   margin-top: 2rem;
+  margin-bottom: 2rem;
   padding: 1.2rem 2rem;
 }
 

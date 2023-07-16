@@ -8,6 +8,7 @@ const { actions, reducer } = createSlice({
     firstName: null,
     lastName: null,
     isUpdateDisplayed: false,
+    isRememberMeChecked: false,
   },
   reducers: {
     dataIsLoading: (draft, action) => {
@@ -34,6 +35,10 @@ const { actions, reducer } = createSlice({
       draft.isUpdateDisplayed = action.payload
       return
     },
+    rememberMeToggle: (draft, action) => {
+      draft.isRememberMeChecked = action.payload
+      return
+    },
     userLogout: (draft) => {
       draft.hasInitialData = false
       return
@@ -45,6 +50,7 @@ export const {
   dataIsLoading,
   userLoginOrUpdate,
   updateDisplayToggle,
+  rememberMeToggle,
   userLogout,
 } = actions
 export default reducer

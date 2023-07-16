@@ -4,14 +4,19 @@ import {
   hasInitialDataSelector,
   fullNameSelector,
   updateDisplaySelector,
+  hasErrorSelector,
+  errorDisplaySelector,
 } from '../utils/selector'
 import Update from '../component/update'
 import { updateDisplayToggle } from '../features/user'
+import ErrorBox from '../component/error-box'
 
 export default function Profile() {
   const fullName = useSelector(fullNameSelector)
   const hasInitialData = useSelector(hasInitialDataSelector)
   const isUpdateDisplayed = useSelector(updateDisplaySelector)
+  const hasError = useSelector(hasErrorSelector)
+  const errorDisplay = useSelector(errorDisplaySelector)
   const dispatch = useDispatch()
   console.log('hasInitialData', hasInitialData)
 
@@ -34,6 +39,7 @@ export default function Profile() {
           </button>
         )}
       </div>
+      {hasError === 'update' && errorDisplay && <ErrorBox />}
       <h2 className="sr-only">Accounts</h2>
       <section className="account">
         <div className="account-content-wrapper">

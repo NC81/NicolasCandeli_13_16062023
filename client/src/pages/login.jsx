@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { handleLogin } from '../services/handle-login'
 import { useDispatch, useSelector } from 'react-redux'
@@ -9,11 +9,14 @@ import {
   loadingClassSelector,
   hasErrorSelector,
   errorDisplaySelector,
-  errorContentSelector,
+  rememberMeSelector,
 } from '../utils/selector'
 import { errorDisplayToggle } from '../features/error'
+import { rememberMeToggle } from '../features/user'
+
 import { store } from '../utils/store'
 import LoadingSpinner from '../component/loading-spinner'
+import ErrorBox from '../component/error-box'
 
 export default function Login() {
   const navigate = useNavigate()
@@ -24,9 +27,30 @@ export default function Login() {
   const hasInitialData = useSelector(hasInitialDataSelector)
   const hasError = useSelector(hasErrorSelector)
   const errorDisplay = useSelector(errorDisplaySelector)
-  const errorContent = useSelector(errorContentSelector)
+  const rememberMe = useSelector(rememberMeSelector)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+
+  useEffect(() => {
+    if (
+      sessionStorage.getItem('ArgentBank-email') ||
+      localStorage.getItem('ArgentBank-email')
+    ) {
+      const storageEmail =
+        sessionStorage.getItem('ArgentBank-email') ||
+        localStorage.getItem('ArgentBank-email')
+      setEmail(storageEmail)
+    }
+    if (
+      sessionStorage.getItem('ArgentBank-password') ||
+      localStorage.getItem('ArgentBank-password')
+    ) {
+      const storagePassword =
+        sessionStorage.getItem('ArgentBank-password') ||
+        localStorage.getItem('ArgentBank-password')
+      setPassword(storagePassword)
+    }
+  }, [])
 
   return (
     <main className="main bg-dark">
@@ -37,6 +61,7 @@ export default function Login() {
           onSubmit={async (e) => {
             await dispatch(handleLogin(e, email, password))
             const storeHasError = store.getState().error.hasError
+            console.log('storeHasError', !storeHasError)
             !storeHasError && navigate('../profile')
           }}
           id="login-form"
@@ -68,7 +93,12 @@ export default function Login() {
             />
           </div>
           <div className="input-remember">
-            <input type="checkbox" id="remember-me" />
+            <input
+              checked={rememberMe}
+              onChange={(e) => dispatch(rememberMeToggle(e.target.checked))}
+              type="checkbox"
+              id="remember-me"
+            />
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <button
@@ -83,7 +113,7 @@ export default function Login() {
               Back to profile page
             </Link>
           )}
-          {hasError && !errorDisplay && (
+          {hasError === 'login' && !errorDisplay && (
             <button
               onClick={() => dispatch(errorDisplayToggle(true))}
               type="button"
@@ -94,23 +124,7 @@ export default function Login() {
           )}
         </form>
       </section>
-      {hasError && errorDisplay && (
-        <section className={`login-block-content error-content`}>
-          <button
-            onClick={() => dispatch(errorDisplayToggle(false))}
-            type="button"
-            className="error-button close-error-button"
-          >
-            <i className="fa fa-close"></i>
-          </button>
-          <i className="fa fa-warning"></i>
-          <p className="error-message">
-            <i>Sorry, an unexpected error has occurred</i>
-            <br />
-            <b>{errorContent}</b>
-          </p>
-        </section>
-      )}
+      {hasError === 'login' && errorDisplay && <ErrorBox />}
     </main>
   )
 }

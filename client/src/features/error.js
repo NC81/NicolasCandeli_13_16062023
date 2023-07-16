@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const { actions, reducer } = createSlice({
   name: 'error',
   initialState: {
-    hasError: false,
+    hasError: null,
     name: null,
     message: null,
     isErrorDisplayed: false,

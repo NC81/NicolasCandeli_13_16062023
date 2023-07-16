@@ -15,3 +15,4 @@ export const hasErrorSelector = (state) => state.error.hasError
 export const errorDisplaySelector = (state) => state.error.isErrorDisplayed
 export const errorContentSelector = (state) =>
   `${state.error.name}: ${state.error.message}`
+export const rememberMeSelector = (state) => state.user.isRememberMeChecked

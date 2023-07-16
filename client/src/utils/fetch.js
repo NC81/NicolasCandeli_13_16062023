@@ -1,11 +1,11 @@
 import { dataIsLoading } from '../features/user'
 import { errorUpdate } from '../features/error'
 
-export default async function fetchAPI(request, dispatch, getState) {
+export default async function fetchAPI(request, source, dispatch, getState) {
   try {
     dispatch(dataIsLoading(true))
     if (getState().error.hasError) {
-      dispatch(errorUpdate(false, null, null))
+      dispatch(errorUpdate(null, null, null))
     }
     const response = await fetch(request)
     console.log('response', response)
@@ -17,11 +17,11 @@ export default async function fetchAPI(request, dispatch, getState) {
       if (response.status === 401) {
         localStorage.removeItem('token')
       }
-      dispatch(errorUpdate(true, response.status, response.statusText))
+      dispatch(errorUpdate(source, response.status, response.statusText))
       dispatch(dataIsLoading(false))
     }
   } catch (err) {
-    dispatch(errorUpdate(true, err.name, err.message))
+    dispatch(errorUpdate(source, err.name, err.message))
     dispatch(dataIsLoading(false))
   }
 }
