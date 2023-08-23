@@ -1,24 +1,13 @@
 import fetchAPI from '../utils/fetch'
-import setStorage from '../utils/storage'
 import { userLoginOrUpdate } from '../features/user'
+import { tokenStorage, setTokenStorage } from '../utils/token-storage'
 
 export function handleLogin(e, email, password) {
   e.preventDefault()
-  return async (dispatch, getState) => {
-    const lastEmail =
-      sessionStorage.getItem('ArgentBank-email') ||
-      localStorage.getItem('ArgentBank-email', email)
-    const lastPassword =
-      sessionStorage.getItem('ArgentBank-password') ||
-      localStorage.getItem('ArgentBank-password', password)
-    const localStorageToken = localStorage.getItem('ArgentBank-token')
-    console.log('lastEmail, lastPassword', lastEmail, lastPassword)
 
-    if (
-      !localStorageToken ||
-      email !== lastEmail ||
-      password !== lastPassword
-    ) {
+  return async (dispatch, getState) => {
+    if (!tokenStorage()) {
+      console.log('API')
       const tokenRequest = new Request(
         'http://localhost:3001/api/v1/user/login',
         {
@@ -45,7 +34,7 @@ export function handleLogin(e, email, password) {
       }
 
       const token = loginData.body.token
-      localStorage.setItem('ArgentBank-token', token)
+      setTokenStorage(token, getState)
     }
 
     const dataRequest = new Request(
@@ -54,7 +43,7 @@ export function handleLogin(e, email, password) {
         method: 'POST',
         // prettier-ignore
         headers: {
-          'Authorization': `Bearer ${localStorage.getItem('ArgentBank-token')}`,
+          'Authorization': `Bearer ${tokenStorage()}`,
         },
       }
     )
@@ -69,8 +58,6 @@ export function handleLogin(e, email, password) {
     if (getState().error.hasError) {
       return
     }
-
-    setStorage(email, password, getState)
 
     const firstName = profileDataOrResponse.body.firstName
     const lastName = profileDataOrResponse.body.lastName

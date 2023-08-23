@@ -227,6 +227,7 @@ body {
 }
 
 .buttons-group {
+  position: relative;
   justify-content: center;
   gap: 4%;
 }
@@ -237,6 +238,7 @@ body {
 
 .update-button {
   width: 40%;
+  margin-top: 0;
 }
 
 .update-label {
@@ -313,9 +315,15 @@ body {
   cursor: pointer;
 }
 
-.open-error-button {
+.open-error-button-login {
   bottom: 5px;
   right: calc(50% - 15px);
+}
+
+.open-error-button-update {
+  bottom: -25px;
+  background-color: #12002b;
+  color: #fff;
 }
 
 .close-error-button {

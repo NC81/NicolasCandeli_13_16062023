@@ -8,7 +8,7 @@ import {
   errorDisplaySelector,
 } from '../utils/selector'
 import Update from '../component/update'
-import { updateDisplayToggle } from '../features/user'
+import { updateDisplayToggle } from '../features/tools'
 import ErrorBox from '../component/error-box'
 
 export default function Profile() {

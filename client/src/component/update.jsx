@@ -7,10 +7,13 @@ import {
   lastNameSelector,
   isLoadingSelector,
   loadingClassSelector,
+  hasErrorSelector,
+  errorDisplaySelector,
 } from '../utils/selector'
-import { updateDisplayToggle } from '../features/user'
+import { updateDisplayToggle } from '../features/tools'
 import { store } from '../utils/store'
 import LoadingSpinner from './loading-spinner'
+import { errorDisplayToggle } from '../features/error'
 
 export default function Update() {
   const navigate = useNavigate()
@@ -19,11 +22,20 @@ export default function Update() {
   const lastName = useSelector(lastNameSelector)
   const isLoading = useSelector(isLoadingSelector)
   const loadingClass = useSelector(loadingClassSelector)
+  const hasError = useSelector(hasErrorSelector)
+  const errorDisplay = useSelector(errorDisplaySelector)
   const [newFirstName, setNewFirstName] = useState(`${firstName}`)
   const [newLastName, setNewLastName] = useState(`${lastName}`)
 
   return (
-    <form id="update-form">
+    <form
+      onSubmit={async (e) => {
+        await dispatch(handleUpdate(e, newFirstName, newLastName))
+        const isAuthError = store.getState().error.name === 401
+        console.log('isAuthError', isAuthError)
+        isAuthError && navigate('../login')
+      }}
+    >
       <div className="update-group">
         <div className="input-wrapper update-wrapper">
           <label className="update-label" htmlFor="first-name">
@@ -54,12 +66,12 @@ export default function Update() {
       </div>
       <div className="update-group buttons-group">
         <button
-          onClick={async (e) => {
-            await dispatch(handleUpdate(e, newFirstName, newLastName))
-            const isAuthError = store.getState().error.name === 401
-            console.log('isAuthError', isAuthError)
-            isAuthError && navigate('../login')
-          }}
+          // onClick={async (e) => {
+          //   await dispatch(handleUpdate(e, newFirstName, newLastName))
+          //   const isAuthError = store.getState().error.name === 401
+          //   console.log('isAuthError', isAuthError)
+          //   isAuthError && navigate('../login')
+          // }}
           disabled={isLoading}
           type="submit"
           className={`sign-in-button update-button ${loadingClass}`}
@@ -73,6 +85,15 @@ export default function Update() {
         >
           Cancel{' '}
         </button>
+        {hasError === 'update' && !errorDisplay && (
+          <button
+            onClick={() => dispatch(errorDisplayToggle(true))}
+            type="button"
+            className="error-button open-error-button-update"
+          >
+            <i className="fa fa-warning"></i>
+          </button>
+        )}
       </div>
     </form>
   )

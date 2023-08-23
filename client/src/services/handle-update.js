@@ -1,10 +1,11 @@
 import fetchAPI from '../utils/fetch'
 import { userLoginOrUpdate } from '../features/user'
+import { updateDisplayToggle } from '../features/tools'
+import { tokenStorage } from '../utils/token-storage'
 
 export function handleUpdate(e, firstName, lastName) {
   return async (dispatch, getState) => {
     e.preventDefault()
-    const token = localStorage.getItem('ArgentBank-token')
 
     const updateRequest = new Request(
       'http://localhost:3001/api/v1/user/profile',
@@ -13,7 +14,7 @@ export function handleUpdate(e, firstName, lastName) {
         // prettier-ignore
         headers: {
             'Content-type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': `Bearer ${tokenStorage()}`
           },
         body: JSON.stringify({ firstName: firstName, lastName: lastName }),
       }
@@ -33,5 +34,6 @@ export function handleUpdate(e, firstName, lastName) {
     const newFirstName = profileData.body.firstName
     const newLastName = profileData.body.lastName
     dispatch(userLoginOrUpdate(newFirstName, newLastName))
+    dispatch(updateDisplayToggle(false))
   }
 }

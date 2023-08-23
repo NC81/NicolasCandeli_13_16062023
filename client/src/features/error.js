@@ -20,12 +20,10 @@ const { actions, reducer } = createSlice({
         if (draft.hasError) {
           draft.isErrorDisplayed = true
         }
-        return
       },
     },
     errorDisplayToggle: (draft, action) => {
       draft.isErrorDisplayed = action.payload
-      return
     },
   },
 })

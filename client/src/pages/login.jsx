@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { handleLogin } from '../services/handle-login'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  hasInitialDataSelector,
   isLoadingSelector,
   isDisabledSelector,
   loadingClassSelector,
@@ -12,7 +11,7 @@ import {
   rememberMeSelector,
 } from '../utils/selector'
 import { errorDisplayToggle } from '../features/error'
-import { rememberMeToggle } from '../features/user'
+import { rememberMeToggle } from '../features/tools'
 
 import { store } from '../utils/store'
 import LoadingSpinner from '../component/loading-spinner'
@@ -24,33 +23,11 @@ export default function Login() {
   const isLoading = useSelector(isLoadingSelector)
   const isDisabled = useSelector(isDisabledSelector)
   const loadingClass = useSelector(loadingClassSelector)
-  const hasInitialData = useSelector(hasInitialDataSelector)
   const hasError = useSelector(hasErrorSelector)
   const errorDisplay = useSelector(errorDisplaySelector)
   const rememberMe = useSelector(rememberMeSelector)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
-  useEffect(() => {
-    if (
-      sessionStorage.getItem('ArgentBank-email') ||
-      localStorage.getItem('ArgentBank-email')
-    ) {
-      const storageEmail =
-        sessionStorage.getItem('ArgentBank-email') ||
-        localStorage.getItem('ArgentBank-email')
-      setEmail(storageEmail)
-    }
-    if (
-      sessionStorage.getItem('ArgentBank-password') ||
-      localStorage.getItem('ArgentBank-password')
-    ) {
-      const storagePassword =
-        sessionStorage.getItem('ArgentBank-password') ||
-        localStorage.getItem('ArgentBank-password')
-      setPassword(storagePassword)
-    }
-  }, [])
 
   return (
     <main className="main bg-dark">
@@ -61,10 +38,9 @@ export default function Login() {
           onSubmit={async (e) => {
             await dispatch(handleLogin(e, email, password))
             const storeHasError = store.getState().error.hasError
-            console.log('storeHasError', !storeHasError)
+            console.log('!storeHasError', !storeHasError)
             !storeHasError && navigate('../profile')
           }}
-          id="login-form"
         >
           <div className="input-wrapper">
             <label htmlFor="email">Username</label>
@@ -108,16 +84,16 @@ export default function Login() {
           >
             {isLoading ? <LoadingSpinner /> : 'Sign In'}
           </button>
-          {hasInitialData && (
+          {/* {hasInitialData && (
             <Link className="back-link" to="../profile">
               Back to profile page
             </Link>
-          )}
+          )} */}
           {hasError === 'login' && !errorDisplay && (
             <button
               onClick={() => dispatch(errorDisplayToggle(true))}
               type="button"
-              className="error-button open-error-button"
+              className="error-button open-error-button-login"
             >
               <i className="fa fa-warning"></i>
             </button>

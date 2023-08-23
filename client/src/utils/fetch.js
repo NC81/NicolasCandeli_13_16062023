@@ -1,7 +1,7 @@
-import { dataIsLoading } from '../features/user'
+import { dataIsLoading } from '../features/tools'
 import { errorUpdate } from '../features/error'
 
-export default async function fetchAPI(request, source, dispatch, getState) {
+export default async function fetchAPI(request, location, dispatch, getState) {
   try {
     dispatch(dataIsLoading(true))
     if (getState().error.hasError) {
@@ -15,13 +15,14 @@ export default async function fetchAPI(request, source, dispatch, getState) {
       return data
     } else {
       if (response.status === 401) {
-        localStorage.removeItem('token')
+        localStorage.removeItem('ArgentBank-token')
+        sessionStorage.removeItem('ArgentBank-token')
       }
-      dispatch(errorUpdate(source, response.status, response.statusText))
+      dispatch(errorUpdate(location, response.status, response.statusText))
       dispatch(dataIsLoading(false))
     }
   } catch (err) {
-    dispatch(errorUpdate(source, err.name, err.message))
+    dispatch(errorUpdate(location, err.name, err.message))
     dispatch(dataIsLoading(false))
   }
 }
