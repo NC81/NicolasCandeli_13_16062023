@@ -9,7 +9,7 @@ export const isLoadingSelector = (state) => state.tools.isLoading
 //   (state.user.isLoading || state.user.hasInitialData) && !state.error.hasError
 //     ? true
 //     : false
-export const isDisabledSelector = (state) =>
+export const loginIsDisabledSelector = (state) =>
   state.user.isLoading && !state.error.hasError ? true : false
 export const loadingClassSelector = (state) =>
   state.tools.isLoading ? 'loading-button' : ''
@@ -18,3 +18,11 @@ export const errorDisplaySelector = (state) => state.error.isErrorDisplayed
 export const errorContentSelector = (state) =>
   `${state.error.name}: ${state.error.message}`
 export const rememberMeSelector = (state) => state.tools.isRememberMeChecked
+export const updateIsDisabledSelector = (newFirstName, newLastName) => {
+  return (state) =>
+    (state.user.firstName === newFirstName &&
+      state.user.lastName === newLastName) ||
+    state.tools.isLoading
+      ? true
+      : false
+}

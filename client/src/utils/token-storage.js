@@ -1,7 +1,7 @@
 export function tokenStorage() {
   return (
-    sessionStorage.getItem('ArgentBank-token') ||
-    localStorage.getItem('ArgentBank-token')
+    localStorage.getItem('ArgentBank-token') ||
+    sessionStorage.getItem('ArgentBank-token')
   )
 }
 

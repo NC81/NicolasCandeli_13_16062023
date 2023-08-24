@@ -4,7 +4,7 @@ import { handleLogin } from '../services/handle-login'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   isLoadingSelector,
-  isDisabledSelector,
+  loginIsDisabledSelector,
   loadingClassSelector,
   hasErrorSelector,
   errorDisplaySelector,
@@ -12,7 +12,6 @@ import {
 } from '../utils/selector'
 import { errorDisplayToggle } from '../features/error'
 import { rememberMeToggle } from '../features/tools'
-
 import { store } from '../utils/store'
 import LoadingSpinner from '../component/loading-spinner'
 import ErrorBox from '../component/error-box'
@@ -21,7 +20,7 @@ export default function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isLoading = useSelector(isLoadingSelector)
-  const isDisabled = useSelector(isDisabledSelector)
+  const loginIsDisabled = useSelector(loginIsDisabledSelector)
   const loadingClass = useSelector(loadingClassSelector)
   const hasError = useSelector(hasErrorSelector)
   const errorDisplay = useSelector(errorDisplaySelector)
@@ -78,7 +77,7 @@ export default function Login() {
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <button
-            disabled={isDisabled}
+            disabled={loginIsDisabled}
             type="submit"
             className={`sign-in-button ${loadingClass}`}
           >

@@ -9,6 +9,7 @@ import {
   loadingClassSelector,
   hasErrorSelector,
   errorDisplaySelector,
+  updateIsDisabledSelector,
 } from '../utils/selector'
 import { updateDisplayToggle } from '../features/tools'
 import { store } from '../utils/store'
@@ -26,6 +27,9 @@ export default function Update() {
   const errorDisplay = useSelector(errorDisplaySelector)
   const [newFirstName, setNewFirstName] = useState(`${firstName}`)
   const [newLastName, setNewLastName] = useState(`${lastName}`)
+  const updateIsDisabled = useSelector(
+    updateIsDisabledSelector(newFirstName, newLastName)
+  )
 
   return (
     <form
@@ -72,7 +76,8 @@ export default function Update() {
           //   console.log('isAuthError', isAuthError)
           //   isAuthError && navigate('../login')
           // }}
-          disabled={isLoading}
+          // disabled={isLoading}
+          disabled={updateIsDisabled}
           type="submit"
           className={`sign-in-button update-button ${loadingClass}`}
         >
