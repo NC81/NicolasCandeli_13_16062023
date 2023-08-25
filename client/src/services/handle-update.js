@@ -1,6 +1,5 @@
 import fetchAPI from '../utils/fetch'
 import { userLoginOrUpdate } from '../features/user'
-import { updateDisplayToggle } from '../features/tools'
 import { tokenStorage } from '../utils/token-storage'
 
 export function handleUpdate(e, firstName, lastName) {
@@ -8,7 +7,7 @@ export function handleUpdate(e, firstName, lastName) {
     e.preventDefault()
 
     const updateRequest = new Request(
-      'http://localhost:3001/api/v1/user/profile',
+      'http://localhost:3001/api/v1/user/profie',
       {
         method: 'PUT',
         // prettier-ignore
@@ -34,6 +33,5 @@ export function handleUpdate(e, firstName, lastName) {
     const newFirstName = profileData.body.firstName
     const newLastName = profileData.body.lastName
     dispatch(userLoginOrUpdate(newFirstName, newLastName))
-    dispatch(updateDisplayToggle(false))
   }
 }

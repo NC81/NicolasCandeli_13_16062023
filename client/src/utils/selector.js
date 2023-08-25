@@ -1,9 +1,6 @@
 export const hasInitialDataSelector = (state) => state.user.hasInitialData
 export const firstNameSelector = (state) => state.user.firstName
 export const lastNameSelector = (state) => state.user.lastName
-export const fullNameSelector = (state) =>
-  `${state.user.firstName} ${state.user.lastName}`
-export const updateDisplaySelector = (state) => state.tools.isUpdateDisplayed
 export const isLoadingSelector = (state) => state.tools.isLoading
 // export const isDisabledSelector = (state) =>
 //   (state.user.isLoading || state.user.hasInitialData) && !state.error.hasError

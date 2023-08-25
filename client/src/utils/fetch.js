@@ -4,9 +4,8 @@ import { errorUpdate } from '../features/error'
 export default async function fetchAPI(request, location, dispatch, getState) {
   try {
     dispatch(dataIsLoading(true))
-    if (getState().error.hasError) {
-      dispatch(errorUpdate(null, null, null))
-    }
+    getState().error.hasError && dispatch(errorUpdate(null, null, null))
+
     const response = await fetch(request)
     console.log('response', response)
     if (response.ok) {
