@@ -1,4 +1,4 @@
-import { dataIsLoading } from '../features/tools'
+import { dataIsLoading } from '../features/user'
 import { errorUpdate } from '../features/error'
 
 export default async function fetchAPI(request, location, dispatch, getState) {

@@ -6,7 +6,7 @@ export function tokenStorage() {
 }
 
 export function setTokenStorage(token, getState) {
-  if (getState().tools.isRememberMeChecked) {
+  if (getState().user.isRememberMeChecked) {
     localStorage.setItem('ArgentBank-token', token)
   } else {
     sessionStorage.setItem('ArgentBank-token', token)

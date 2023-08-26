@@ -11,7 +11,7 @@ import {
   rememberMeSelector,
 } from '../utils/selector'
 import { errorDisplayToggle } from '../features/error'
-import { rememberMeToggle } from '../features/tools'
+import { rememberMeToggle } from '../features/user'
 import { store } from '../utils/store'
 import LoadingSpinner from '../component/loading-spinner'
 import ErrorBox from '../component/error-box'

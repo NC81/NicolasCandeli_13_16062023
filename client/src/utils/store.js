@@ -1,12 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import profileReducer from '../features/user'
 import errorReducer from '../features/error'
-import toolsReducer from '../features/tools'
 
 const combinedReducer = combineReducers({
   user: profileReducer,
   error: errorReducer,
-  tools: toolsReducer,
 })
 
 const rootReducer = (state, action) => {
