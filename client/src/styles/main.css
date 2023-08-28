@@ -157,7 +157,7 @@ body {
   margin-bottom: 0.5rem;
 }
 
-.sign-in-button {
+.form-button {
   display: block;
   width: 100%;
   padding: 8px;
@@ -169,7 +169,7 @@ body {
   color: #fff;
 }
 
-.sign-in-button:disabled {
+.form-button:disabled {
   border-color: #7dc7ac;
   background-color: #7dc7ac;
   color: #fff;

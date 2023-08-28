@@ -7,7 +7,7 @@ export function handleUpdate(e, firstName, lastName) {
     e.preventDefault()
 
     const updateRequest = new Request(
-      'http://localhost:3001/api/v1/user/profie',
+      'http://localhost:3001/api/v1/user/profile',
       {
         method: 'PUT',
         // prettier-ignore
@@ -32,6 +32,7 @@ export function handleUpdate(e, firstName, lastName) {
     console.log('profileData', profileData)
     const newFirstName = profileData.body.firstName
     const newLastName = profileData.body.lastName
+    console.log('UPDATE FIN')
     dispatch(userLoginOrUpdate(newFirstName, newLastName))
   }
 }

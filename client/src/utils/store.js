@@ -1,9 +1,9 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-import profileReducer from '../features/user'
+import userReducer from '../features/user'
 import errorReducer from '../features/error'
 
 const combinedReducer = combineReducers({
-  user: profileReducer,
+  user: userReducer,
   error: errorReducer,
 })
 

@@ -8,10 +8,8 @@ import {
   loadingClassSelector,
   hasErrorSelector,
   errorDisplaySelector,
-  rememberMeSelector,
 } from '../utils/selector'
 import { errorDisplayToggle } from '../features/error'
-import { rememberMeToggle } from '../features/user'
 import { store } from '../utils/store'
 import LoadingSpinner from '../component/loading-spinner'
 import ErrorBox from '../component/error-box'
@@ -24,9 +22,9 @@ export default function Login() {
   const loadingClass = useSelector(loadingClassSelector)
   const hasError = useSelector(hasErrorSelector)
   const errorDisplay = useSelector(errorDisplaySelector)
-  const rememberMe = useSelector(rememberMeSelector)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [rememberMe, setRememberMe] = useState(false)
 
   return (
     <main className="main bg-dark">
@@ -35,7 +33,7 @@ export default function Login() {
         <h1>Sign In</h1>
         <form
           onSubmit={async (e) => {
-            await dispatch(handleLogin(e, email, password))
+            await dispatch(handleLogin(e, email, password, rememberMe))
             const storeHasError = store.getState().error.hasError
             console.log('!storeHasError', !storeHasError)
             !storeHasError && navigate('../profile')
@@ -70,7 +68,9 @@ export default function Login() {
           <div className="input-remember">
             <input
               checked={rememberMe}
-              onChange={(e) => dispatch(rememberMeToggle(e.target.checked))}
+              onChange={(e) =>
+                rememberMe ? setRememberMe(false) : setRememberMe(true)
+              }
               type="checkbox"
               id="remember-me"
             />
@@ -79,15 +79,10 @@ export default function Login() {
           <button
             disabled={loginIsDisabled}
             type="submit"
-            className={`sign-in-button ${loadingClass}`}
+            className={`form-button ${loadingClass}`}
           >
             {isLoading ? <LoadingSpinner /> : 'Sign In'}
           </button>
-          {/* {hasInitialData && (
-            <Link className="back-link" to="../profile">
-              Back to profile page
-            </Link>
-          )} */}
           {hasError === 'login' && !errorDisplay && (
             <button
               onClick={() => dispatch(errorDisplayToggle(true))}

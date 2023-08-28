@@ -4,7 +4,7 @@ import { handleUpdate } from '../services/handle-update'
 import { Navigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  hasInitialDataSelector,
+  isConnectedSelector,
   hasErrorSelector,
   errorDisplaySelector,
   firstNameSelector,
@@ -21,7 +21,7 @@ import { errorDisplayToggle } from '../features/error'
 export default function Profile() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const hasInitialData = useSelector(hasInitialDataSelector)
+  const isConnected = useSelector(isConnectedSelector)
   const hasError = useSelector(hasErrorSelector)
   const errorDisplay = useSelector(errorDisplaySelector)
   const firstName = useSelector(firstNameSelector)
@@ -34,9 +34,9 @@ export default function Profile() {
   const updateIsDisabled = useSelector(
     updateIsDisabledSelector(newFirstName, newLastName)
   )
-  console.log('hasInitialData', hasInitialData)
+  console.log('isConnected', isConnected)
 
-  return hasInitialData ? (
+  return isConnected ? (
     <main className="main bg-dark">
       <div className="header">
         <h1>
@@ -85,14 +85,14 @@ export default function Profile() {
               <button
                 disabled={updateIsDisabled}
                 type="submit"
-                className={`sign-in-button update-button ${loadingClass}`}
+                className={`form-button update-button ${loadingClass}`}
               >
                 {isLoading ? <LoadingSpinner /> : 'Save'}
               </button>
               <button
                 onClick={() => setUpdateDisplayed(false)}
                 type="button"
-                className="sign-in-button update-button"
+                className="form-button update-button"
               >
                 Cancel{' '}
               </button>

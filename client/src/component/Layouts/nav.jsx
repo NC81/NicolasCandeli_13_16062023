@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
 import logo from '../../assets/argentBankLogo.png'
 import { useSelector } from 'react-redux'
-import { hasInitialDataSelector, firstNameSelector } from '../../utils/selector'
+import { isConnectedSelector, firstNameSelector } from '../../utils/selector'
 import { useDispatch } from 'react-redux'
 import { userLogout } from '../../features/user'
 
 export default function Nav() {
-  const hasInitialData = useSelector(hasInitialDataSelector)
+  const isConnected = useSelector(isConnectedSelector)
   const firstName = useSelector(firstNameSelector)
   const dispatch = useDispatch()
 
@@ -21,7 +21,7 @@ export default function Nav() {
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
       <div>
-        {hasInitialData ? (
+        {isConnected ? (
           <>
             <Link className="main-nav-item" to="login">
               <i className="fa fa-user-circle"></i> {firstName}{' '}

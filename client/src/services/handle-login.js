@@ -2,7 +2,7 @@ import fetchAPI from '../utils/fetch'
 import { userLoginOrUpdate } from '../features/user'
 import { tokenStorage, setTokenStorage } from '../utils/token-storage'
 
-export function handleLogin(e, email, password) {
+export function handleLogin(e, email, password, rememberMe) {
   e.preventDefault()
 
   return async (dispatch, getState) => {
@@ -13,7 +13,7 @@ export function handleLogin(e, email, password) {
         {
           method: 'POST',
           headers: {
-            'Content-type': 'application/json',
+            'content-type': 'application/json',
           },
           body: JSON.stringify({ email: email, password: password }),
           // body: JSON.stringify({
@@ -33,9 +33,12 @@ export function handleLogin(e, email, password) {
         return
       }
 
-      const token = loginData.body.token
-      setTokenStorage(token, getState)
+      var token = loginData.body.token
     }
+
+    !tokenStorage()
+      ? setTokenStorage(token, rememberMe)
+      : setTokenStorage(tokenStorage(), rememberMe)
 
     const dataRequest = new Request(
       'http://localhost:3001/api/v1/user/profile',

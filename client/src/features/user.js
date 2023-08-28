@@ -3,11 +3,10 @@ import { createSlice } from '@reduxjs/toolkit'
 const { actions, reducer } = createSlice({
   name: 'user',
   initialState: {
-    hasInitialData: false,
+    isConnected: false,
     firstName: null,
     lastName: null,
     isLoading: false,
-    isRememberMeChecked: false,
   },
   reducers: {
     userLoginOrUpdate: {
@@ -15,7 +14,7 @@ const { actions, reducer } = createSlice({
         payload: { firstName, lastName },
       }),
       reducer: (draft, action) => {
-        draft.hasInitialData = true
+        draft.isConnected = true
         draft.firstName = action.payload.firstName
         draft.lastName = action.payload.lastName
       },
@@ -23,19 +22,9 @@ const { actions, reducer } = createSlice({
     dataIsLoading: (draft, action) => {
       draft.isLoading = action.payload
     },
-    rememberMeToggle: (draft, action) => {
-      draft.isRememberMeChecked = action.payload
-    },
-    userLogout: (draft) => {
-      draft.hasInitialData = false
-    },
+    userLogout: () => {},
   },
 })
 
-export const {
-  userLoginOrUpdate,
-  dataIsLoading,
-  rememberMeToggle,
-  userLogout,
-} = actions
+export const { userLoginOrUpdate, dataIsLoading, userLogout } = actions
 export default reducer
