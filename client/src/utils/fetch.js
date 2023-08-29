@@ -10,7 +10,6 @@ export default async function fetchAPI(request, location, dispatch, getState) {
     console.log('response', response)
     if (response.ok) {
       const data = await response.json()
-      dispatch(dataIsLoading(false))
       return data
     } else {
       if (response.status === 401) {
@@ -18,10 +17,10 @@ export default async function fetchAPI(request, location, dispatch, getState) {
         sessionStorage.removeItem('ArgentBank-token')
       }
       dispatch(errorUpdate(location, response.status, response.statusText))
-      dispatch(dataIsLoading(false))
     }
   } catch (err) {
     dispatch(errorUpdate(location, err.name, err.message))
+  } finally {
     dispatch(dataIsLoading(false))
   }
 }

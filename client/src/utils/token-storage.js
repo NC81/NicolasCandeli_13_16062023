@@ -1,11 +1,20 @@
-export function tokenStorage() {
+export function tokenInStorage() {
   return (
     localStorage.getItem('ArgentBank-token') ||
     sessionStorage.getItem('ArgentBank-token')
   )
 }
 
-export function setTokenStorage(token, rememberMe) {
+export function storeToken(apiToken, rememberMe) {
+  let token
+  if (apiToken) {
+    token = apiToken
+    console.log('api')
+  } else {
+    token = tokenInStorage()
+    console.log('storage')
+  }
+
   if (rememberMe) {
     console.log('rememberMe true', rememberMe)
     sessionStorage.removeItem('ArgentBank-token')

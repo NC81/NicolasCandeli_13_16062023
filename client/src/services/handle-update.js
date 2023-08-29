@@ -1,6 +1,6 @@
 import fetchAPI from '../utils/fetch'
 import { userLoginOrUpdate } from '../features/user'
-import { tokenStorage } from '../utils/token-storage'
+import { tokenInStorage } from '../utils/token-storage'
 
 export function handleUpdate(e, firstName, lastName) {
   return async (dispatch, getState) => {
@@ -13,7 +13,7 @@ export function handleUpdate(e, firstName, lastName) {
         // prettier-ignore
         headers: {
             'Content-type': 'application/json',
-            'Authorization': `Bearer ${tokenStorage()}`
+            'Authorization': `Bearer ${tokenInStorage()}`
           },
         body: JSON.stringify({ firstName: firstName, lastName: lastName }),
       }
@@ -32,7 +32,6 @@ export function handleUpdate(e, firstName, lastName) {
     console.log('profileData', profileData)
     const newFirstName = profileData.body.firstName
     const newLastName = profileData.body.lastName
-    console.log('UPDATE FIN')
     dispatch(userLoginOrUpdate(newFirstName, newLastName))
   }
 }

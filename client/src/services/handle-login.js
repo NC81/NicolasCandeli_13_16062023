@@ -1,12 +1,12 @@
 import fetchAPI from '../utils/fetch'
 import { userLoginOrUpdate } from '../features/user'
-import { tokenStorage, setTokenStorage } from '../utils/token-storage'
+import { tokenInStorage, storeToken } from '../utils/token-storage'
 
 export function handleLogin(e, email, password, rememberMe) {
   e.preventDefault()
 
   return async (dispatch, getState) => {
-    if (!tokenStorage()) {
+    if (!tokenInStorage()) {
       console.log('API')
       const tokenRequest = new Request(
         'http://localhost:3001/api/v1/user/login',
@@ -33,12 +33,10 @@ export function handleLogin(e, email, password, rememberMe) {
         return
       }
 
-      var token = loginData.body.token
+      var apiToken = loginData.body.token
     }
-
-    !tokenStorage()
-      ? setTokenStorage(token, rememberMe)
-      : setTokenStorage(tokenStorage(), rememberMe)
+    console.log('token', apiToken)
+    storeToken(apiToken, rememberMe)
 
     const dataRequest = new Request(
       'http://localhost:3001/api/v1/user/profile',
@@ -46,24 +44,19 @@ export function handleLogin(e, email, password, rememberMe) {
         method: 'POST',
         // prettier-ignore
         headers: {
-          'Authorization': `Bearer ${tokenStorage()}`,
+          'Authorization': `Bearer ${tokenInStorage()}`,
         },
       }
     )
-    const profileDataOrResponse = await fetchAPI(
-      dataRequest,
-      'login',
-      dispatch,
-      getState
-    )
-    console.log('profileData', profileDataOrResponse)
+    const profileData = await fetchAPI(dataRequest, 'login', dispatch, getState)
+    console.log('profileData', profileData)
 
     if (getState().error.hasError) {
       return
     }
 
-    const firstName = profileDataOrResponse.body.firstName
-    const lastName = profileDataOrResponse.body.lastName
+    const firstName = profileData.body.firstName
+    const lastName = profileData.body.lastName
     dispatch(userLoginOrUpdate(firstName, lastName))
   }
 }
