@@ -1,16 +1,16 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { handleLogin } from '../services/handle-login'
 import { useDispatch, useSelector } from 'react-redux'
+import { store } from '../utils/store'
+import { handleLogin } from '../services/handle-login'
 import {
   isLoadingSelector,
-  loginIsDisabledSelector,
+  // loginIsDisabledSelector,
   loadingClassSelector,
   hasErrorSelector,
-  errorDisplaySelector,
+  isErrorDisplayedSelector,
 } from '../utils/selector'
 import { errorDisplayToggle } from '../features/error'
-import { store } from '../utils/store'
 import LoadingSpinner from '../component/loading-spinner'
 import ErrorBox from '../component/error-box'
 
@@ -18,10 +18,10 @@ export default function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isLoading = useSelector(isLoadingSelector)
-  const loginIsDisabled = useSelector(loginIsDisabledSelector)
+  // const loginIsDisabled = useSelector(loginIsDisabledSelector)
   const loadingClass = useSelector(loadingClassSelector)
   const hasError = useSelector(hasErrorSelector)
-  const errorDisplay = useSelector(errorDisplaySelector)
+  const isErrorDisplayed = useSelector(isErrorDisplayedSelector)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [rememberMe, setRememberMe] = useState(false)
@@ -48,8 +48,8 @@ export default function Login() {
               name="email"
               id="email"
               placeholder="Enter email"
-              // minLength={3}
-              // required
+              minLength={5}
+              required
             />
           </div>
           <div className="input-wrapper">
@@ -61,14 +61,14 @@ export default function Login() {
               name="password"
               id="password"
               placeholder="Enter password"
-              // minLength={3}
-              // required
+              minLength={5}
+              required
             />
           </div>
           <div className="input-remember">
             <input
               checked={rememberMe}
-              onChange={(e) =>
+              onChange={() =>
                 rememberMe ? setRememberMe(false) : setRememberMe(true)
               }
               type="checkbox"
@@ -77,13 +77,13 @@ export default function Login() {
             <label htmlFor="remember-me">Remember me</label>
           </div>
           <button
-            disabled={loginIsDisabled}
+            disabled={isLoading}
             type="submit"
             className={`form-button ${loadingClass}`}
           >
             {isLoading ? <LoadingSpinner /> : 'Sign In'}
           </button>
-          {hasError === 'login' && !errorDisplay && (
+          {hasError === 'login' && !isErrorDisplayed && (
             <button
               onClick={() => dispatch(errorDisplayToggle(true))}
               type="button"
@@ -94,7 +94,7 @@ export default function Login() {
           )}
         </form>
       </section>
-      {hasError === 'login' && errorDisplay && <ErrorBox />}
+      {hasError === 'login' && isErrorDisplayed && <ErrorBox />}
     </main>
   )
 }

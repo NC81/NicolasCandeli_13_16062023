@@ -3,9 +3,9 @@ import { userLoginOrUpdate } from '../features/user'
 import { tokenInStorage, storeToken } from '../utils/token-storage'
 
 export function handleLogin(e, email, password, rememberMe) {
-  e.preventDefault()
-
   return async (dispatch, getState) => {
+    e.preventDefault()
+
     if (!tokenInStorage()) {
       console.log('API')
       const tokenRequest = new Request(
@@ -16,10 +16,6 @@ export function handleLogin(e, email, password, rememberMe) {
             'content-type': 'application/json',
           },
           body: JSON.stringify({ email: email, password: password }),
-          // body: JSON.stringify({
-          //   email: 'tony@stark.com',
-          //   password: 'password123',
-          // }),
         }
       )
       const loginData = await fetchAPI(
@@ -35,7 +31,7 @@ export function handleLogin(e, email, password, rememberMe) {
 
       var apiToken = loginData.body.token
     }
-    console.log('token', apiToken)
+    console.log('apiToken', apiToken)
     storeToken(apiToken, rememberMe)
 
     const dataRequest = new Request(

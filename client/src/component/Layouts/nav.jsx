@@ -1,9 +1,8 @@
 import { Link } from 'react-router-dom'
-import logo from '../../assets/argentBankLogo.png'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { isConnectedSelector, firstNameSelector } from '../../utils/selector'
-import { useDispatch } from 'react-redux'
 import { userLogout } from '../../features/user'
+import logo from '../../assets/argentBankLogo.png'
 
 export default function Nav() {
   const isConnected = useSelector(isConnectedSelector)
@@ -20,7 +19,7 @@ export default function Nav() {
         />
         <h1 className="sr-only">Argent Bank</h1>
       </Link>
-      <div>
+      <div className="main-nav-user">
         {isConnected ? (
           <>
             <Link className="main-nav-item" to="login">

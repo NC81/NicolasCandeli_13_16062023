@@ -1,38 +1,38 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { handleUpdate } from '../services/handle-update'
-import { Navigate } from 'react-router-dom'
+import { useNavigate, Navigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import { store } from '../utils/store'
+import { handleUpdate } from '../services/handle-update'
+// import { Navigate } from 'react-router-dom'
 import {
   isConnectedSelector,
   hasErrorSelector,
-  errorDisplaySelector,
+  isErrorDisplayedSelector,
   firstNameSelector,
   lastNameSelector,
   isLoadingSelector,
   loadingClassSelector,
-  updateIsDisabledSelector,
+  isUpdateDisabledSelector,
 } from '../utils/selector'
-import ErrorBox from '../component/error-box'
-import { store } from '../utils/store'
-import LoadingSpinner from '../component/loading-spinner'
 import { errorDisplayToggle } from '../features/error'
+import LoadingSpinner from '../component/loading-spinner'
+import ErrorBox from '../component/error-box'
 
 export default function Profile() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isConnected = useSelector(isConnectedSelector)
   const hasError = useSelector(hasErrorSelector)
-  const errorDisplay = useSelector(errorDisplaySelector)
+  const isErrorDisplayed = useSelector(isErrorDisplayedSelector)
   const firstName = useSelector(firstNameSelector)
   const lastName = useSelector(lastNameSelector)
   const isLoading = useSelector(isLoadingSelector)
   const loadingClass = useSelector(loadingClassSelector)
   const [newFirstName, setNewFirstName] = useState(`${firstName}`)
   const [newLastName, setNewLastName] = useState(`${lastName}`)
-  const [updateDisplayed, setUpdateDisplayed] = useState(false)
-  const updateIsDisabled = useSelector(
-    updateIsDisabledSelector(newFirstName, newLastName)
+  const [isUpdateDisplayed, setUpdateDisplayed] = useState(false)
+  const isUpdateDisabled = useSelector(
+    isUpdateDisabledSelector(newFirstName, newLastName)
   )
   console.log('isConnected', isConnected)
 
@@ -44,13 +44,15 @@ export default function Profile() {
           <br />
           {firstName} {lastName}!
         </h1>
-        {updateDisplayed ? (
+        {isUpdateDisplayed ? (
           <form
             onSubmit={async (e) => {
               await dispatch(handleUpdate(e, newFirstName, newLastName))
-              const isAuthError = store.getState().error.name === 401
-              console.log('isAuthError', isAuthError)
-              isAuthError ? navigate('../login') : setUpdateDisplayed(false)
+              const storeHasAuthError = store.getState().error.name === 401
+              console.log('storeHasAuthError', storeHasAuthError)
+              storeHasAuthError
+                ? navigate('../login')
+                : setUpdateDisplayed(false)
             }}
           >
             <div className="update-group">
@@ -63,8 +65,8 @@ export default function Profile() {
                   onChange={(e) => setNewFirstName(e.target.value)}
                   name="first-name"
                   id="first-name"
-                  // minLength={3}
-                  // required
+                  minLength={2}
+                  required
                 />
               </div>
               <div className="input-wrapper update-wrapper">
@@ -76,14 +78,14 @@ export default function Profile() {
                   onChange={(e) => setNewLastName(e.target.value)}
                   name="last-name"
                   id="last-name"
-                  // minLength={3}
-                  // required
+                  minLength={2}
+                  required
                 />
               </div>
             </div>
             <div className="update-group buttons-group">
               <button
-                disabled={updateIsDisabled}
+                disabled={isUpdateDisabled}
                 type="submit"
                 className={`form-button update-button ${loadingClass}`}
               >
@@ -96,7 +98,7 @@ export default function Profile() {
               >
                 Cancel{' '}
               </button>
-              {hasError === 'update' && !errorDisplay && (
+              {hasError === 'update' && !isErrorDisplayed && (
                 <button
                   onClick={() => dispatch(errorDisplayToggle(true))}
                   type="button"
@@ -116,7 +118,7 @@ export default function Profile() {
           </button>
         )}
       </div>
-      {hasError === 'update' && errorDisplay && <ErrorBox />}
+      {hasError === 'update' && isErrorDisplayed && <ErrorBox />}
       <h2 className="sr-only">Accounts</h2>
       <section className="account">
         <div className="account-content-wrapper">

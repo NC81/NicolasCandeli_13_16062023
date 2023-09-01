@@ -74,6 +74,10 @@ body {
   width: 200px;
 }
 
+.main-nav-user {
+  min-width: 158px;
+}
+
 .hero {
   background-image: url('../assets/bank-tree.jpeg');
   background-position: 0 -50px;
