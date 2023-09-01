@@ -5,7 +5,6 @@ import { store } from '../utils/store'
 import { handleLogin } from '../services/handle-login'
 import {
   isLoadingSelector,
-  // loginIsDisabledSelector,
   loadingClassSelector,
   hasErrorSelector,
   isErrorDisplayedSelector,
@@ -18,7 +17,6 @@ export default function Login() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const isLoading = useSelector(isLoadingSelector)
-  // const loginIsDisabled = useSelector(loginIsDisabledSelector)
   const loadingClass = useSelector(loadingClassSelector)
   const hasError = useSelector(hasErrorSelector)
   const isErrorDisplayed = useSelector(isErrorDisplayedSelector)
@@ -35,7 +33,6 @@ export default function Login() {
           onSubmit={async (e) => {
             await dispatch(handleLogin(e, email, password, rememberMe))
             const storeHasError = store.getState().error.hasError
-            console.log('!storeHasError', !storeHasError)
             !storeHasError && navigate('../profile')
           }}
         >
@@ -49,7 +46,6 @@ export default function Login() {
               id="email"
               placeholder="Enter email"
               minLength={5}
-              required
             />
           </div>
           <div className="input-wrapper">
@@ -62,7 +58,6 @@ export default function Login() {
               id="password"
               placeholder="Enter password"
               minLength={5}
-              required
             />
           </div>
           <div className="input-remember">

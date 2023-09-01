@@ -3,7 +3,6 @@ import { useNavigate, Navigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { store } from '../utils/store'
 import { handleUpdate } from '../services/handle-update'
-// import { Navigate } from 'react-router-dom'
 import {
   isConnectedSelector,
   hasErrorSelector,
@@ -34,7 +33,6 @@ export default function Profile() {
   const isUpdateDisabled = useSelector(
     isUpdateDisabledSelector(newFirstName, newLastName)
   )
-  console.log('isConnected', isConnected)
 
   return isConnected ? (
     <main className="main bg-dark">
@@ -49,7 +47,6 @@ export default function Profile() {
             onSubmit={async (e) => {
               await dispatch(handleUpdate(e, newFirstName, newLastName))
               const storeHasAuthError = store.getState().error.name === 401
-              console.log('storeHasAuthError', storeHasAuthError)
               storeHasAuthError
                 ? navigate('../login')
                 : setUpdateDisplayed(false)

@@ -29,7 +29,6 @@ export function handleUpdate(e, firstName, lastName) {
       return
     }
 
-    console.log('profileData', profileData)
     const newFirstName = profileData.body.firstName
     const newLastName = profileData.body.lastName
     dispatch(userLoginOrUpdate(newFirstName, newLastName))

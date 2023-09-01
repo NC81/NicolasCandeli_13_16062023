@@ -7,7 +7,6 @@ export function handleLogin(e, email, password, rememberMe) {
     e.preventDefault()
 
     if (!tokenInStorage()) {
-      console.log('API')
       const tokenRequest = new Request(
         'http://localhost:3001/api/v1/user/login',
         {
@@ -31,7 +30,7 @@ export function handleLogin(e, email, password, rememberMe) {
 
       var apiToken = loginData.body.token
     }
-    console.log('apiToken', apiToken)
+
     storeToken(apiToken, rememberMe)
 
     const dataRequest = new Request(
@@ -45,7 +44,6 @@ export function handleLogin(e, email, password, rememberMe) {
       }
     )
     const profileData = await fetchAPI(dataRequest, 'login', dispatch, getState)
-    console.log('profileData', profileData)
 
     if (getState().error.hasError) {
       return

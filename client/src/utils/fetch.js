@@ -5,9 +5,7 @@ export default async function fetchAPI(request, location, dispatch, getState) {
   try {
     dispatch(dataIsLoading(true))
     getState().error.hasError && dispatch(errorUpdate(null, null, null))
-
     const response = await fetch(request)
-    console.log('response', response)
     if (response.ok) {
       const data = await response.json()
       return data

@@ -22,7 +22,7 @@ export default function Nav() {
       <div className="main-nav-user">
         {isConnected ? (
           <>
-            <Link className="main-nav-item" to="login">
+            <Link className="main-nav-item" to="profile">
               <i className="fa fa-user-circle"></i> {firstName}{' '}
             </Link>
             <Link
